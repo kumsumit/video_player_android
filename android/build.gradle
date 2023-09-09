@@ -1,0 +1,76 @@
+group 'io.flutter.plugins.videoplayer'
+version '1.0-SNAPSHOT'
+def args = ["-Xlint:deprecation","-Xlint:unchecked","-Werror"]
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.1.1'
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+project.getTasks().withType(JavaCompile){
+    options.compilerArgs.addAll(args)
+}
+
+apply plugin: 'com.android.library'
+
+android {
+    // Conditional for compatibility with AGP <4.2.
+    if (project.android.hasProperty("namespace")) {
+        namespace 'io.flutter.plugins.videoplayer'
+    }
+    compileSdkVersion 34
+
+    defaultConfig {
+        minSdkVersion 16
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    lintOptions {
+        checkAllWarnings true
+        warningsAsErrors true
+        disable 'AndroidGradlePluginVersion', 'InvalidPackage', 'GradleDependency'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    dependencies {
+        def media_player_version = "1.1.1"
+        implementation "androidx.media3:media3-session:${media_player_version}"
+        implementation "androidx.media3:media3-exoplayer:${media_player_version}"
+        implementation "androidx.media3:media3-datasource:${media_player_version}"
+        implementation "androidx.media3:media3-exoplayer-hls:${media_player_version}"
+        implementation "androidx.media3:media3-exoplayer-dash:${media_player_version}"
+        implementation "androidx.media3:media3-exoplayer-smoothstreaming:${media_player_version}"
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+        testImplementation 'androidx.test:core:1.3.0'
+        testImplementation 'org.mockito:mockito-inline:5.2.0'
+        testImplementation 'org.robolectric:robolectric:4.10.3'
+        testImplementation 'org.junit.vintage:junit-vintage-engine:5.10.0'
+    }
+
+    testOptions {
+        unitTests.includeAndroidResources = true
+        unitTests.returnDefaultValues = true
+        unitTests.all {
+            testLogging {
+               events "passed", "skipped", "failed", "standardOut", "standardError"
+               outputs.upToDateWhen {false}
+               showStandardStreams = true
+            }
+        }
+    }
+}

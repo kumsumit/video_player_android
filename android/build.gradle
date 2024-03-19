@@ -9,7 +9,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.1.1'
+        classpath 'com.android.tools.build:gradle:8.3.0'
     }
 }
 
@@ -31,7 +31,7 @@ android {
     if (project.android.hasProperty("namespace")) {
         namespace 'io.flutter.plugins.videoplayer'
     }
-    compileSdkVersion 34
+    compileSdk 34
 
     defaultConfig {
         minSdkVersion 16
@@ -48,7 +48,7 @@ android {
     }
 
     dependencies {
-        def media_player_version = "1.1.1"
+        def media_player_version = "1.3.0"
         implementation "androidx.media3:media3-session:${media_player_version}"
         implementation "androidx.media3:media3-exoplayer:${media_player_version}"
         implementation "androidx.media3:media3-datasource:${media_player_version}"
